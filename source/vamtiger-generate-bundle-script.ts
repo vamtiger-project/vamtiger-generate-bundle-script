@@ -1,6 +1,8 @@
 import { resolve as resolvePath } from 'path';
 import getFolderContent from 'vamtiger-get-directory-content';
 import createFile from 'vamtiger-create-file';
+import Args from 'vamtiger-argv/build/main';
+const format = require('beautify');
 
 interface IPackage {
     name: string;
@@ -12,12 +14,18 @@ interface IPackage {
 
 const { stringify } = JSON;
 const { cwd } = process;
-const format = require('beautify');
+const args = new Args();
 const config = {
     format: 'json'
 };
-const packagePath = resolvePath(cwd(), 'package');
+const packagePath = resolvePath(
+    cwd(),
+    'package'
+);
 const packageJson = getPackageJson();
+const sourceFolder = args.has('sourceFolder') && args.get('sourceFolder')
+    || args.has('s') && args.get('s')
+    || 'source';
 const { name = '', scripts = {'bundle-source-main': ''} } = packageJson || {};
 const { 'bundle-source-main': mainBundleScript } = scripts;
 const fileName = new RegExp(name);
@@ -41,10 +49,10 @@ function getPackageJson() {
 }
 
 async function generateBundleScript() {
-    const folderContent = await getFolderContent(cwd());
+    const folderContent = await getFolderContent(sourceFolder);
     const scriptFiles = folderContent.filter(file => file.match(fileName));
     const generatedBundleScript = scriptFiles
-        .map(fileName => `vamtiger-bundle-typescript --relativePath --entryFilePath source/${fileName} --bundleFilePath build/${fileName}.js --format iife --sourcemap true --copySourceMap --minify`)
+        .map(fileName => `vamtiger-bundle-typescript --relativePath --entryFilePath source/${fileName} --bundleFilePath build/${fileName.split('.')[0]}.js --format iife --sourcemap true --copySourceMap --minify`)
         .join(' && ');
     const script = `${mainBundleScript} && ${generatedBundleScript}`;
 

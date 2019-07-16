@@ -8,7 +8,11 @@ const generateBundleScriptPath = resolvePath(
     __dirname,
     '../vamtiger-generate-bundle-script'
 );
-const generateBundleScript = `node ${generateBundleScriptPath}`;
+const sourceFolder = resolvePath(
+    __dirname,
+    '../../source/test'
+);
+const generateBundleScript = `node ${generateBundleScriptPath} -s ${sourceFolder}`;
 
 describe('vamtiger-generate-bundle-script', function () {
     before(async function () {

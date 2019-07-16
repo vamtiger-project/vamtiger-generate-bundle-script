@@ -52,6 +52,7 @@
     },
     "dependencies": {
         "beautify": "0.0.8",
+        "vamtiger-argv": "^1.2.6",
         "vamtiger-create-file": "0.0.10",
         "vamtiger-get-file-text": "0.0.6"
     }
