@@ -1,6 +1,6 @@
 {
     "name": "vamtiger-generate-bundle-script",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "description": "A utility for generating discrete bundle statements",
     "main": "build/vamtiger-generate-bundle-script",
     "bin": {
