@@ -1,0 +1,58 @@
+{
+    "name": "vamtiger-generate-bundle-script",
+    "version": "0.1.0",
+    "description": "A utility for generating discrete bundle statements",
+    "main": "build/vamtiger-generate-bundle-script",
+    "bin": {
+        "vamtiger-generate-bundle-script": "build/vamtiger-generate-bundle-script"
+    },
+    "scripts": {
+        "test": "npm run build && npm run mocha",
+        "mocha": "mocha build/test --recursive",
+        "build": "tsc",
+        "commit": "npm run bundle-source && npm run clean-bundle && vamtiger-node-typescript-commit --buildScript bundle --push --publish --publishSource",
+        "clean-bundle": "vamtiger-remove -d build -p \"(vamtiger-generate-bundle-script)\\\\.(js(.map)?|d.ts)\"",
+        "clean": "rm -rf build/*",
+        "bundle-source": "vamtiger-bundle-typescript --relativePath --entryFilePath source/vamtiger-generate-bundle-script.ts --bundleFilePath build/vamtiger-generate-bundle-script.js --format cjs --sourcemap true --copySourceMap --minify --bin",
+        "bundle": "npm test && npm run clean && npm run build && npm run bundle-source && npm run clean-bundle",
+        "watch": "npm run bundle -- --watch"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/vamtiger-project/vamtiger-generate-bundle-script.git"
+    },
+    "keywords": [
+        "vamtiger",
+        "bundle-script",
+        "bundlescript",
+        "cli"
+    ],
+    "author": "Vamtiger Immortalles",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/vamtiger-project/vamtiger-generate-bundle-script/issues"
+    },
+    "homepage": "https://github.com/vamtiger-project/vamtiger-generate-bundle-script#readme",
+    "types": "build/index.d.ts",
+    "devDependencies": {
+        "@types/chai": "^4.1.7",
+        "@types/mocha": "^5.2.7",
+        "@types/node": "^12.6.4",
+        "chai": "^4.2.0",
+        "mocha": "^6.1.4",
+        "typescript": "^3.5.3",
+        "vamtiger-bash": "0.0.25",
+        "vamtiger-bundle-css-next": "^0.4.1",
+        "vamtiger-bundle-html": "^0.2.8",
+        "vamtiger-bundle-text": "0.0.8",
+        "vamtiger-bundle-typescript": "0.0.36",
+        "vamtiger-get-directory-content": "0.0.35",
+        "vamtiger-node-typescript-commit": "^0.9.1",
+        "vamtiger-remove": "0.0.5"
+    },
+    "dependencies": {
+        "beautify": "0.0.8",
+        "vamtiger-create-file": "0.0.10",
+        "vamtiger-get-file-text": "0.0.6"
+    }
+}
