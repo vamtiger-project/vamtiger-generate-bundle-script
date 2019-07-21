@@ -4,7 +4,7 @@
     "description": "A utility for generating discrete bundle statements",
     "main": "build/vamtiger-generate-bundle-script",
     "bin": {
-        "vamtiger-generate-bundle-script": "build/vamtiger-generate-bundle-script"
+        "vamtiger-generate-bundle-script": "build/vamtiger-generate-bundle-script.js"
     },
     "scripts": {
         "test": "npm run build && npm run mocha",
