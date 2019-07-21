@@ -12,6 +12,8 @@ interface IPackage {
     }
 }
 
+type scriptName = keyof IPackage['scripts']
+
 const { stringify } = JSON;
 const { cwd } = process;
 const args = new Args();
@@ -55,9 +57,24 @@ async function generateBundleScript() {
         .map(fileName => `vamtiger-bundle-typescript --relativePath --entryFilePath source/${fileName} --bundleFilePath build/${fileName.split('.')[0]}.js --format iife --sourcemap true --copySourceMap --minify`)
         .join(' && ');
     const script = `${mainBundleScript} && ${generatedBundleScript}`;
+    const newScripts = {} as IPackage['scripts'];
+
+    let scriptNames: scriptName[];
 
     if (packageJson && script) {
         packageJson.scripts['bundle-source'] = script;
+
+        scriptNames = Object
+            .keys(packageJson.scripts)
+            .sort() as scriptName[];
+
+        scriptNames.forEach(scriptName => {
+            if (packageJson.scripts[scriptName]) {
+                newScripts[scriptName] = packageJson.scripts[scriptName] as string;
+            }
+        });
+
+        packageJson.scripts = newScripts;
 
         await createFile(`${packagePath}.json`, format(stringify(packageJson), config));
     }
